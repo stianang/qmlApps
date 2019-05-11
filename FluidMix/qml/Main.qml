@@ -60,13 +60,14 @@ App {
                     Component.onCompleted: {
                         loadValues();
                         ready = true;
+                        doCalc();
                     }
                 }
 
                 AppText {
                     text: "\nGlass 1 har " + sourceControl1.volume + " ml vann med temp " + sourceControl1.temperature + " C"
                           + "\nGlass 2 har " + sourceControl2.volume + " ml vann med temp " + sourceControl2.temperature + " C"
-                          + "\n\nDette gir ferdig blanding på " + Math.round(targetControl.volume) + " ml vann med temp " + targetControl.temperature + " C";
+                          + "\n\nDette gir ferdig blanding på " + Math.round(targetControl.getVolume()) + " ml vann med temp " + targetControl.getTemp() + " C";
 
                     fontSize: 12
                     width: root.width
@@ -77,24 +78,27 @@ App {
         }
     }
 
+    function load(val, def)
+    {
+        var value = storage.getValue(val);
+
+        if (!value || value < 0) {
+            value = def;
+        }
+
+        return value;
+    }
+
     function loadValues()
     {
-        sourceControl1.setTemp(storage.getValue("temp1"));
-        sourceControl1.setVolume(storage.getValue("volume1"));
+        sourceControl1.setTemp(load("temp1", 4));
+        sourceControl1.setVolume(load("volume1", 100));
 
-        sourceControl2.setTemp(storage.getValue("temp2"));
-        sourceControl2.setVolume(storage.getValue("volume2"));
+        sourceControl2.setTemp(load("temp2", 96));
+        sourceControl2.setVolume(load("volume2", 100));
 
-        targetControl.setTemp(storage.getValue("temp"));
-        targetControl.setVolume(storage.getValue("volume"));
-
-        console.log("LOAD")
-        console.log("temp1: " + storage.getValue("temp1"))
-        console.log("volume1: " + storage.getValue("volume1"))
-        console.log("temp2: " + storage.getValue("temp2"))
-        console.log("volume2: " + storage.getValue("volume2"))
-        console.log("temp: " + storage.getValue("temp"))
-        console.log("volume: " + storage.getValue("volume"))
+        targetControl.setTemp(load("temp", 50));
+        targetControl.setVolume(load("volume", 200));
     }
 
     function saveValues()
@@ -107,14 +111,6 @@ App {
 
         storage.setValue("temp", targetControl.getTemp())
         storage.setValue("volume", targetControl.getVolume())
-
-        console.log("SAVE")
-        console.log("temp1: " + sourceControl1.getTemp())
-        console.log("volume1: " + sourceControl1.getVolume())
-        console.log("temp2: " + sourceControl2.getTemp())
-        console.log("volume2: " + sourceControl2.getVolume())
-        console.log("temp: " + targetControl.getTemp())
-        console.log("volume: " + targetControl.getVolume())
     }
 
     function doCalc()
@@ -160,11 +156,4 @@ App {
 
         return m1;
     }
-
-    // You get free licenseKeys from https://felgo.com/licenseKey
-    // With a licenseKey you can:
-    //  * Publish your games & apps for the app stores
-    //  * Remove the Felgo Splash Screen or set a custom one (available with the Pro Licenses)
-    //  * Add plugins to monetize, analyze & improve your apps (available with the Pro Licenses)
-    //licenseKey: "<generate one from https://felgo.com/licenseKey>"
 }
