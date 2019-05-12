@@ -10,6 +10,8 @@ ColumnLayout {
     property double volume: 100
     property double temperature: 100
     property int maxVolume: 200
+    property int maxTemp: 100
+    property int minTemp: 0
 
     signal valueChanged()
 
@@ -28,12 +30,12 @@ ColumnLayout {
 
     function setTemp(t)
     {
-        if (t > 100) {
-            t = 100;
+        if (t > maxTemp) {
+            t = maxTemp;
         }
 
-        if (t < 0) {
-            t = 0;
+        if (t < minTemp) {
+            t = minTemp;
         }
 
         temperature = t;
@@ -46,7 +48,7 @@ ColumnLayout {
 
     function getTemp()
     {
-        return Math.round(appSlider1.value * 100)
+        return Math.round(appSlider1.value * maxTemp)
     }
 
     AppText {
@@ -79,7 +81,7 @@ ColumnLayout {
         AppSlider {
             id: appSlider1
 
-            value: temperature / 100
+            value: temperature / maxTemp
 
             onValueChanged: {
                 appText1.text = getTemp().toString() + " C"

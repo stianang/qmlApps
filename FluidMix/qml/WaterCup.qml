@@ -105,13 +105,13 @@ ColumnLayout {
             t = parseInt(text)
         }
 
-        if (t < 0)
+        if (t < minTemp)
         {
-            t = 0;
+            t = minTemp;
         }
-        else if (t > 100)
+        else if (t > maxTemp)
         {
-            t = 100;
+            t = maxTemp;
         }
 
         return t;

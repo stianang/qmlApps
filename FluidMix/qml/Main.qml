@@ -78,12 +78,12 @@ App {
         }
     }
 
-    function load(val, def)
+    function load(val, initVal)
     {
         var value = storage.getValue(val);
 
         if (!value || value < 0) {
-            value = def;
+            value = initVal;
         }
 
         return value;
