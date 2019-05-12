@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.0
 ColumnLayout {
     id: cup
 
-    property int maxVolume: 500
+    property int maxVolume: 200
     property int maxTemp: 100
     property int minTemp: 0
 

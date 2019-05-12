@@ -9,13 +9,14 @@ ColumnLayout {
     property string title: qsTr("Target volume and temperature")
     property double volume: 100
     property double temperature: 100
+    property int maxVolume: 200
 
     signal valueChanged()
 
     function setVolume(v)
     {
-        if (v > 500) {
-            v = 500;
+        if (v > maxVolume) {
+            v = maxVolume;
         }
 
         if (v < 5) {
@@ -40,7 +41,7 @@ ColumnLayout {
 
     function getVolume()
     {
-        return Math.round(appSlider.value * 500)
+        return Math.round(appSlider.value * maxVolume)
     }
 
     function getTemp()
@@ -58,9 +59,9 @@ ColumnLayout {
     RowLayout {
         AppSlider {
             id: appSlider
-            stepSize: 0.01
+            stepSize: 0.025
 
-            value: volume / 500
+            value: volume / maxVolume
 
             onValueChanged: {
                 appText.text = getVolume().toString() + " ml"
